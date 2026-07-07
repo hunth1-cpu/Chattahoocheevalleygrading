@@ -262,7 +262,6 @@ section[id] { scroll-margin-top: 68px; }
 }
 
 .hero-content { position: relative; z-index: 2; padding-top: 44px; padding-bottom: 44px; }
-.hero-content .eyebrow { margin-bottom: 18px; }
 .hero-content h1 {
   color: var(--white);
   text-transform: uppercase;
@@ -344,7 +343,7 @@ section[id] { scroll-margin-top: 68px; }
   font-weight: 800;
   letter-spacing: -0.02em;
   font-size: 34px;
-  color: var(--gray-200);
+  color: var(--gray-700);
   line-height: 1;
   min-width: 54px;
 }
