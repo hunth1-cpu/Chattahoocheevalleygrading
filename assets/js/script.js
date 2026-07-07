@@ -19,25 +19,6 @@
     });
   });
 
-  /* ---------- Active nav link on scroll ---------- */
-  var sections = ["home", "services", "about", "projects", "reviews", "faq", "contact"]
-    .map(function (id) { return document.getElementById(id); })
-    .filter(Boolean);
-  var navLinks = document.querySelectorAll(".main-nav a");
-
-  function updateActiveLink() {
-    var scrollPos = window.scrollY + 160;
-    var current = sections[0];
-    sections.forEach(function (sec) {
-      if (sec.offsetTop <= scrollPos) current = sec;
-    });
-    navLinks.forEach(function (link) {
-      link.classList.toggle("active", link.getAttribute("href") === "#" + current.id);
-    });
-  }
-  window.addEventListener("scroll", updateActiveLink, { passive: true });
-  updateActiveLink();
-
   /* ---------- Scroll reveal ---------- */
   var revealEls = document.querySelectorAll(".reveal");
   var io = new IntersectionObserver(function (entries) {
