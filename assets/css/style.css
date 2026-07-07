@@ -280,7 +280,6 @@ section[id] { scroll-margin-top: 68px; }
   margin-bottom: 36px;
   line-height: 1.7;
 }
-.hero-sub .dot { color: var(--orange); margin: 0 7px; }
 .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
 /* ---------- Generic horizontal scroll carousel ---------- */
