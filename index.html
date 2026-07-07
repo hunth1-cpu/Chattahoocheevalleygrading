@@ -540,15 +540,54 @@
   </div>
 </section>
 
-<!-- ============ FINAL CTA ============ -->
+<!-- ============ FINAL CTA / CONTACT FORM ============ -->
 <section class="final-cta" id="contact">
   <div class="container">
-    <span class="eyebrow reveal">Free, no obligation estimate</span>
-    <h2 class="reveal reveal-delay-1">Ready to get started?</h2>
-    <p class="reveal reveal-delay-2">Request your free estimate today and see why the Valley trusts us with their land.</p>
-    <div class="cta-actions reveal reveal-delay-3">
-      <a href="tel:+17609001709" class="btn btn-primary">Call (760) 900-1709</a>
-      <a href="#" class="btn btn-outline-light">Request free estimate</a>
+    <div class="final-cta-head reveal">
+      <span class="eyebrow">Free, no obligation estimate</span>
+      <h2>Ready to get started?</h2>
+      <p>Request your free estimate today and see why the Valley trusts us with their land.</p>
+    </div>
+
+    <div class="contact-card reveal reveal-delay-1">
+      <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="contactForm" class="contact-form">
+        <input type="hidden" name="form-name" value="contact">
+        <p class="hp-field">
+          <label>Leave this field blank<input name="bot-field"></label>
+        </p>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="cf-name">Name</label>
+            <input type="text" id="cf-name" name="name" autocomplete="name" required>
+          </div>
+          <div class="form-field">
+            <label for="cf-phone">Phone</label>
+            <input type="tel" id="cf-phone" name="phone" autocomplete="tel" required>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="cf-email">Email</label>
+          <input type="email" id="cf-email" name="email" autocomplete="email" required>
+        </div>
+
+        <div class="form-field">
+          <label for="cf-message">Tell us about your project</label>
+          <textarea id="cf-message" name="message" rows="4"></textarea>
+        </div>
+
+        <p class="form-error" id="formError" hidden>Something went wrong sending your request. Please try again, or call us at (760) 900-1709.</p>
+
+        <button type="submit" class="btn btn-primary btn-block">Request free estimate</button>
+        <p class="form-note">We typically respond within one business day. Prefer to call? <a href="tel:+17609001709" class="text-link">(760) 900-1709</a></p>
+      </form>
+
+      <div class="form-success" id="formSuccess" hidden>
+        <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="8.5 12.5 11 15 15.5 9"/></svg>
+        <h3>Thank you</h3>
+        <p>Your request has been received. We will be in touch within one business day.</p>
+      </div>
     </div>
   </div>
 </section>
