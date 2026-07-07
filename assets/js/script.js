@@ -50,21 +50,15 @@
   }, { threshold: 0.01, rootMargin: "0px 0px -5% 0px" });
   revealEls.forEach(function (el) { io.observe(el); });
 
-  /* Safety net: never leave content permanently hidden (covers reduced-motion,
-     automated screenshot tools, or any missed observer callback). */
+  /* Safety net: never leave content permanently hidden. */
   setTimeout(function () {
     revealEls.forEach(function (el) { el.classList.add("is-visible"); });
   }, 2000);
 
-  /* ---------- FAQ accordion ---------- */
+  /* ---------- FAQ accordion (collapsed by default) ---------- */
   document.querySelectorAll(".faq-item").forEach(function (item) {
     var q = item.querySelector(".faq-q");
     var a = item.querySelector(".faq-a");
-
-    function setHeight() {
-      a.style.maxHeight = item.classList.contains("is-open") ? a.scrollHeight + "px" : "0px";
-    }
-    setHeight();
 
     q.addEventListener("click", function () {
       var willOpen = !item.classList.contains("is-open");
@@ -74,80 +68,59 @@
       });
       if (willOpen) {
         item.classList.add("is-open");
-        setHeight();
+        a.style.maxHeight = a.scrollHeight + "px";
       }
     });
 
     window.addEventListener("resize", function () {
-      if (item.classList.contains("is-open")) setHeight();
+      if (item.classList.contains("is-open")) a.style.maxHeight = a.scrollHeight + "px";
     });
   });
 
-  /* ---------- Testimonial carousel ---------- */
-  var track = document.getElementById("reviewTrack");
-  var navWrap = document.getElementById("reviewNav");
-  var cards = track ? Array.from(track.children) : [];
+  /* ---------- Generic horizontal swipe carousels with dot indicators ---------- */
+  document.querySelectorAll(".hscroll-wrap").forEach(function (wrap) {
+    var track = wrap.querySelector(".hscroll");
+    var dots = wrap.querySelector(".hdots");
+    if (!track || !dots) return;
 
-  function getPerView() {
-    if (window.innerWidth <= 1100) return 1;
-    return 3;
-  }
+    var items = Array.from(track.children);
+    if (items.length < 2) return;
 
-  var perView = getPerView();
-  var pageCount = Math.ceil(cards.length / perView);
-  var currentPage = 0;
-  var autoplayTimer;
-
-  function buildNav() {
-    navWrap.innerHTML = "";
-    for (var i = 0; i < pageCount; i++) {
-      var b = document.createElement("button");
-      if (i === currentPage) b.classList.add("active");
-      b.addEventListener("click", function (idx) {
-        return function () { goToPage(idx); restartAutoplay(); };
-      }(i));
-      navWrap.appendChild(b);
+    function scrollToItem(item) {
+      var delta = item.getBoundingClientRect().left - track.getBoundingClientRect().left;
+      track.scrollTo({ left: track.scrollLeft + delta, behavior: "smooth" });
     }
-  }
 
-  function goToPage(page) {
-    currentPage = (page + pageCount) % pageCount;
-    var offset = currentPage * 100;
-    track.style.transform = "translateX(-" + offset + "%)";
-    Array.from(navWrap.children).forEach(function (b, i) {
-      b.classList.toggle("active", i === currentPage);
-    });
-  }
-
-  function restartAutoplay() {
-    clearInterval(autoplayTimer);
-    autoplayTimer = setInterval(function () { goToPage(currentPage + 1); }, 6000);
-  }
-
-  function rebuild() {
-    perView = getPerView();
-    pageCount = Math.ceil(cards.length / perView);
-    track.innerHTML = "";
-    for (var p = 0; p < pageCount; p++) {
-      var page = document.createElement("div");
-      page.className = "review-page";
-      cards.slice(p * perView, p * perView + perView).forEach(function (card) {
-        page.appendChild(card);
+    function build() {
+      dots.innerHTML = "";
+      items.forEach(function (item, i) {
+        var b = document.createElement("button");
+        if (i === 0) b.classList.add("active");
+        b.setAttribute("aria-label", "Go to slide " + (i + 1));
+        b.addEventListener("click", function () { scrollToItem(item); });
+        dots.appendChild(b);
       });
-      track.appendChild(page);
     }
-    currentPage = 0;
-    buildNav();
-    track.style.transform = "translateX(0%)";
-  }
+    build();
 
-  if (track && cards.length) {
-    rebuild();
-    restartAutoplay();
-    window.addEventListener("resize", function () {
-      rebuild();
-    });
-    track.addEventListener("mouseenter", function () { clearInterval(autoplayTimer); });
-    track.addEventListener("mouseleave", restartAutoplay);
-  }
+    var ticking = false;
+    track.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var trackLeft = track.getBoundingClientRect().left;
+        var pos = trackLeft + track.offsetWidth * 0.3;
+        var activeIndex = 0;
+        items.forEach(function (item, i) {
+          if (item.getBoundingClientRect().left <= pos) activeIndex = i;
+        });
+        Array.from(dots.children).forEach(function (b, i) {
+          b.classList.toggle("active", i === activeIndex);
+        });
+        ticking = false;
+      });
+    }, { passive: true });
+
+    window.addEventListener("resize", build);
+  });
 })();
