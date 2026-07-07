@@ -84,24 +84,48 @@
     }
     build();
 
-    var ticking = false;
-    track.addEventListener("scroll", function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () {
-        var trackLeft = track.getBoundingClientRect().left;
-        var pos = trackLeft + track.offsetWidth * 0.3;
-        var activeIndex = 0;
-        items.forEach(function (item, i) {
-          if (item.getBoundingClientRect().left <= pos) activeIndex = i;
-        });
-        Array.from(dots.children).forEach(function (b, i) {
-          b.classList.toggle("active", i === activeIndex);
-        });
-        ticking = false;
+    // The active dot is whichever card's left edge sits closest to the
+    // track's left edge. This stays correct even for the last card, which
+    // can't always scroll all the way to a perfectly flush position (the
+    // scroll container clamps at its max scrollLeft, short of a full
+    // snap-width past the second-to-last card).
+    function updateActiveDot() {
+      var trackLeft = track.getBoundingClientRect().left;
+      var closestIndex = 0;
+      var closestDist = Infinity;
+      items.forEach(function (item, i) {
+        var dist = Math.abs(item.getBoundingClientRect().left - trackLeft);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestIndex = i;
+        }
       });
+      Array.from(dots.children).forEach(function (b, i) {
+        b.classList.toggle("active", i === closestIndex);
+      });
+    }
+
+    var ticking = false;
+    var settleTimer = null;
+    track.addEventListener("scroll", function () {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function () {
+          updateActiveDot();
+          ticking = false;
+        });
+      }
+      // Native scroll-snap "settle" animation after a fast swipe doesn't
+      // reliably fire enough scroll events for the rAF tick above to catch
+      // the true final position, so also recheck shortly after scrolling
+      // goes quiet.
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(updateActiveDot, 120);
     }, { passive: true });
 
-    window.addEventListener("resize", build);
+    window.addEventListener("resize", function () {
+      build();
+      updateActiveDot();
+    });
   });
 })();
