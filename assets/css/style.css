@@ -311,8 +311,7 @@ section[id] { scroll-margin-top: 68px; }
 
 /* Trust: horizontal swipe carousel, icons float free (no background) */
 .trust-card {
-  width: 76%;
-  max-width: 260px;
+  width: min(76vw, 260px);
   background: var(--white);
   border: 1px solid var(--gray-100);
   border-radius: var(--radius);
@@ -322,8 +321,13 @@ section[id] { scroll-margin-top: 68px; }
 .trust-card h3 { font-size: 17px; margin-bottom: 6px; text-transform: none; }
 .trust-card p { font-size: 14.5px; color: var(--gray-700); }
 
+/* Extra trailing space so the LAST card can scroll all the way to a
+   flush position too, not just clamp a card-width short. Mirrors each
+   card's own min(%, max-width) formula, inverted. */
+.trust-hscroll-wrap .hscroll { padding-right: calc(100vw - 28px - min(76vw, 260px)); }
+
 @media (min-width: 900px) {
-  .trust-hscroll-wrap .hscroll { display: grid; grid-template-columns: repeat(4, 1fr); overflow: visible; }
+  .trust-hscroll-wrap .hscroll { display: grid; grid-template-columns: repeat(4, 1fr); overflow: visible; padding-right: 0; }
   .trust-card { width: auto; max-width: none; }
   .trust-hscroll-wrap .hdots { display: none; }
 }
@@ -359,8 +363,7 @@ section[id] { scroll-margin-top: 68px; }
 
 /* Service cards */
 .service-card {
-  width: 88%;
-  max-width: 340px;
+  width: min(88vw, 340px);
   background: var(--white);
   border-radius: var(--radius);
   overflow: hidden;
@@ -372,16 +375,17 @@ section[id] { scroll-margin-top: 68px; }
 .service-card p { font-size: 14.5px; color: var(--gray-700); margin-bottom: 18px; }
 .bg-dark .service-card p { color: rgba(255,255,255,0.65); }
 
+.services-hscroll-wrap .hscroll { padding-right: calc(100vw - 28px - min(88vw, 340px)); }
+
 @media (min-width: 900px) {
-  .services-hscroll-wrap .hscroll { display: grid; grid-template-columns: repeat(3, 1fr); overflow: visible; gap: 28px; }
+  .services-hscroll-wrap .hscroll { display: grid; grid-template-columns: repeat(3, 1fr); overflow: visible; gap: 28px; padding-right: 0; }
   .service-card { width: auto; max-width: none; }
   .services-hscroll-wrap .hdots { display: none; }
 }
 
 /* Project cards */
 .project-card {
-  width: 88%;
-  max-width: 360px;
+  width: min(88vw, 360px);
   background: var(--white);
   border-radius: var(--radius);
   border: 1px solid var(--gray-100);
@@ -402,8 +406,10 @@ section[id] { scroll-margin-top: 68px; }
 .project-body h3 { font-size: 19px; margin-bottom: 10px; text-transform: none; }
 .project-body p { font-size: 14.5px; color: var(--gray-700); margin-bottom: 18px; }
 
+.projects-hscroll-wrap .hscroll { padding-right: calc(100vw - 28px - min(88vw, 360px)); }
+
 @media (min-width: 900px) {
-  .projects-hscroll-wrap .hscroll { display: grid; grid-template-columns: repeat(3, 1fr); overflow: visible; gap: 24px; }
+  .projects-hscroll-wrap .hscroll { display: grid; grid-template-columns: repeat(3, 1fr); overflow: visible; gap: 24px; padding-right: 0; }
   .project-card { width: auto; max-width: none; }
   .projects-hscroll-wrap .hdots { display: none; }
 }
@@ -495,8 +501,7 @@ section[id] { scroll-margin-top: 68px; }
 .review-rating span.label { font-size: 13.5px; font-weight: 600; color: rgba(255,255,255,0.7); }
 
 .review-card {
-  width: 84%;
-  max-width: 320px;
+  width: min(84vw, 320px);
   background: var(--charcoal-2);
   border-radius: var(--radius);
   padding: 24px 22px;
@@ -506,8 +511,10 @@ section[id] { scroll-margin-top: 68px; }
 .review-person .name { color: var(--white); font-weight: 700; font-size: 14px; }
 .review-person .loc { color: rgba(255,255,255,0.5); font-size: 12.5px; margin-top: 2px; }
 
+.reviews-hscroll-wrap .hscroll { padding-right: calc(100vw - 28px - min(84vw, 320px)); }
+
 @media (min-width: 900px) {
-  .reviews-hscroll-wrap .hscroll { display: grid; grid-template-columns: repeat(3, 1fr); overflow: visible; gap: 20px; }
+  .reviews-hscroll-wrap .hscroll { display: grid; grid-template-columns: repeat(3, 1fr); overflow: visible; gap: 20px; padding-right: 0; }
   .review-card { width: auto; max-width: none; }
   .reviews-hscroll-wrap .hdots { display: none; }
 }
