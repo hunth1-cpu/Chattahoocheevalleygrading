@@ -105,23 +105,32 @@
       });
     }
 
-    var ticking = false;
-    var settleTimer = null;
-    track.addEventListener("scroll", function () {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(function () {
-          updateActiveDot();
-          ticking = false;
-        });
+    // After a fast swipe, the browser's own scroll-snap "settle" animation
+    // glides the track the rest of the way to the nearest snap point, and
+    // that glide does not reliably fire 'scroll' events in mobile Safari --
+    // so a handler that only reacts to 'scroll' can miss the true final
+    // position entirely and get stuck on the card before it. Instead, once
+    // any interaction starts, poll on every animation frame for a bit so
+    // we keep reading the live, current position regardless of whether a
+    // 'scroll' event ever fires for it.
+    var pollUntil = 0;
+    function pollLoop() {
+      updateActiveDot();
+      if (performance.now() < pollUntil) {
+        requestAnimationFrame(pollLoop);
       }
-      // Native scroll-snap "settle" animation after a fast swipe doesn't
-      // reliably fire enough scroll events for the rAF tick above to catch
-      // the true final position, so also recheck shortly after scrolling
-      // goes quiet.
-      clearTimeout(settleTimer);
-      settleTimer = setTimeout(updateActiveDot, 120);
-    }, { passive: true });
+    }
+    function kickPoll() {
+      var alreadyPolling = performance.now() < pollUntil;
+      pollUntil = performance.now() + 600;
+      if (!alreadyPolling) requestAnimationFrame(pollLoop);
+    }
+    track.addEventListener("scroll", kickPoll, { passive: true });
+    track.addEventListener("touchstart", kickPoll, { passive: true });
+    track.addEventListener("touchmove", kickPoll, { passive: true });
+    if ("onscrollend" in window) {
+      track.addEventListener("scrollend", updateActiveDot);
+    }
 
     window.addEventListener("resize", function () {
       build();
