@@ -1,22 +1,6 @@
 (function () {
   "use strict";
 
-  /* ---------- Sticky header shrink/scroll state ---------- */
-  var header = document.getElementById("siteHeader");
-  var backToTop = document.getElementById("backToTop");
-
-  function onScroll() {
-    var scrolled = window.scrollY > 40;
-    header.classList.toggle("is-scrolled", scrolled);
-    backToTop.classList.toggle("is-visible", window.scrollY > 600);
-  }
-  onScroll();
-  window.addEventListener("scroll", onScroll, { passive: true });
-
-  backToTop.addEventListener("click", function () {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
   /* ---------- Mobile nav toggle ---------- */
   var navToggle = document.getElementById("navToggle");
   var mobileNav = document.getElementById("mobileNav");
