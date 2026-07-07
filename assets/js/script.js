@@ -58,6 +58,44 @@
     });
   });
 
+  /* ---------- Contact form (Netlify Forms, AJAX submit) ---------- */
+  var contactForm = document.getElementById("contactForm");
+  if (contactForm) {
+    var formSuccess = document.getElementById("formSuccess");
+    var formError = document.getElementById("formError");
+    var submitBtn = contactForm.querySelector("button[type=submit]");
+    var submitBtnDefaultText = submitBtn.textContent;
+
+    function encodeForm(form) {
+      return Array.from(new FormData(form), function (pair) {
+        return encodeURIComponent(pair[0]) + "=" + encodeURIComponent(pair[1]);
+      }).join("&");
+    }
+
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      formError.hidden = true;
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
+
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encodeForm(contactForm)
+      })
+        .then(function (response) {
+          if (!response.ok) throw new Error("Form submission failed");
+          contactForm.hidden = true;
+          formSuccess.hidden = false;
+        })
+        .catch(function () {
+          formError.hidden = false;
+          submitBtn.disabled = false;
+          submitBtn.textContent = submitBtnDefaultText;
+        });
+    });
+  }
+
   /* ---------- Generic horizontal swipe carousels with dot indicators ---------- */
   document.querySelectorAll(".hscroll-wrap").forEach(function (wrap) {
     var track = wrap.querySelector(".hscroll");
