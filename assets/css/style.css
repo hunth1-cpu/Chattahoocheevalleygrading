@@ -6,6 +6,7 @@
 :root {
   --orange: #f7941d;
   --orange-dark: #d97e0f;
+  --orange-ink: #97580a;
   --black: #141414;
   --charcoal: #1c1c1c;
   --charcoal-2: #232323;
@@ -113,7 +114,7 @@ section[id] { scroll-margin-top: 68px; }
   font-weight: 700;
   font-size: 13px;
   letter-spacing: 0.01em;
-  color: var(--orange-dark);
+  color: var(--orange-ink);
   margin-bottom: 10px;
 }
 .bg-dark .eyebrow { color: var(--orange); }
@@ -318,7 +319,7 @@ section[id] { scroll-margin-top: 68px; }
   border-radius: var(--radius);
   padding: 26px 24px;
 }
-.trust-card .icon { color: var(--orange-dark); margin-bottom: 14px; }
+.trust-card .icon { color: var(--orange-ink); margin-bottom: 14px; }
 .trust-card h3 { font-size: 17px; margin-bottom: 6px; text-transform: none; }
 .trust-card p { font-size: 14.5px; color: var(--gray-700); }
 
@@ -347,7 +348,7 @@ section[id] { scroll-margin-top: 68px; }
   line-height: 1;
   min-width: 54px;
 }
-.why-card .icon { color: var(--orange-dark); margin-bottom: 10px; }
+.why-card .icon { color: var(--orange-ink); margin-bottom: 10px; }
 .why-card h3 { font-size: 18px; margin-bottom: 8px; text-transform: none; }
 .why-card p { font-size: 14.5px; color: var(--gray-700); }
 
@@ -398,7 +399,7 @@ section[id] { scroll-margin-top: 68px; }
   border-radius: 100px;
   margin-bottom: 14px;
 }
-.project-loc .icon { width: 13px; height: 13px; color: var(--orange-dark); }
+.project-loc .icon { width: 13px; height: 13px; color: var(--orange-ink); }
 .project-body h3 { font-size: 19px; margin-bottom: 10px; text-transform: none; }
 .project-body p { font-size: 14.5px; color: var(--gray-700); margin-bottom: 18px; }
 
@@ -478,7 +479,7 @@ section[id] { scroll-margin-top: 68px; }
   margin-left: 8px;
   font-family: "Inter", sans-serif;
   font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
-  color: var(--orange-dark);
+  color: var(--orange-ink);
 }
 
 @media (min-width: 900px) {
@@ -523,7 +524,7 @@ section[id] { scroll-margin-top: 68px; }
   gap: 16px;
 }
 .faq-q h3 { font-family: "Inter", sans-serif; font-weight: 600; font-size: 16px; text-transform: none; color: var(--black); }
-.faq-q .icon { color: var(--orange-dark); transition: transform 0.25s ease; }
+.faq-q .icon { color: var(--orange-ink); transition: transform 0.25s ease; }
 .faq-item.is-open .faq-q .icon { transform: rotate(180deg); }
 .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
 .faq-a p { padding: 0 2px 22px; color: var(--gray-700); font-size: 15px; max-width: 680px; }
