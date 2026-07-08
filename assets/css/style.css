@@ -307,27 +307,27 @@ section[id] { scroll-margin-top: 68px; }
   .hscroll { margin: 0; padding: 4px 0 4px; scroll-padding-left: 0; }
 }
 
-/* Trust: horizontal swipe carousel, icons float free (no background) */
-.trust-card {
-  width: min(76vw, 260px);
-  background: var(--white);
-  border: 1px solid var(--gray-100);
-  border-radius: var(--radius);
-  padding: 26px 24px;
+/* Trust: thin strip of checkmarked badges */
+.trust-strip { padding: 22px 0; }
+.trust-strip-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px 36px;
+  list-style: none;
+  text-align: center;
 }
-.trust-card .icon { color: var(--orange-ink); margin-bottom: 14px; }
-.trust-card h3 { font-size: 17px; margin-bottom: 6px; text-transform: none; }
-.trust-card p { font-size: 14.5px; color: var(--gray-700); }
+.trust-strip-list li {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gray-700);
+  letter-spacing: 0.02em;
+}
 
-/* Extra trailing space so the LAST card can scroll all the way to a
-   flush position too, not just clamp a card-width short. Mirrors each
-   card's own min(%, max-width) formula, inverted. */
-.trust-hscroll-wrap .hscroll { padding-right: calc(100vw - 28px - min(76vw, 260px)); }
-
-@media (min-width: 900px) {
-  .trust-hscroll-wrap .hscroll { display: grid; grid-template-columns: repeat(4, 1fr); overflow: visible; padding-right: 0; }
-  .trust-card { width: auto; max-width: none; }
-  .trust-hscroll-wrap .hdots { display: none; }
+@media (min-width: 640px) {
+  .trust-strip-list { flex-wrap: nowrap; gap: 44px; }
+  .trust-strip-list li { font-size: 15.5px; }
 }
 
 /* Why choose us: vertical, numbers + minimal icon */
